@@ -8,6 +8,19 @@
             <class name="myprojects.automation.assignment5.tests.PlaceOrderTest" />
         </classes>
     </test>
-
+    <test name="Create New Order [android]" >
+        <parameter name="selenium.browser" value="android" />
+        <parameter name="selenium.grid" value="http://localhost:4444/wd/hub" />
+        <classes>
+            <class name="myprojects.automation.assignment5.tests.PlaceOrderTest" />
+        </classes>
+    </test>
+    <test name="Create New Order [remote-chrome]" >
+        <parameter name="selenium.browser" value="remote-chrome" />
+        <parameter name="selenium.grid" value="http://localhost:4444/wd/hub" />
+        <classes>
+            <class name="myprojects.automation.assignment5.tests.PlaceOrderTest" />
+        </classes>
+    </test>
     <!--Configure tests for other browser types-->
 </suite>

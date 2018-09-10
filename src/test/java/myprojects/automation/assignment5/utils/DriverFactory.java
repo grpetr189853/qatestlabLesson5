@@ -1,13 +1,22 @@
 package myprojects.automation.assignment5.utils;
 
+import myprojects.automation.assignment5.BaseTest;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverFactory {
     /**
@@ -31,6 +40,27 @@ public class DriverFactory {
                         .destructivelyEnsureCleanSession();
                 ieOptions.setCapability(InternetExplorerDriver.NATIVE_EVENTS, false);
                 return new InternetExplorerDriver(ieOptions);
+            case "android":
+                System.setProperty(
+                        "webdriver.chrome.driver",
+                        new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
+
+                Map<String, String> mobileEmulation = new HashMap<>();
+
+                mobileEmulation.put("deviceName", "Nexus 5");
+
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+                return new ChromeDriver(chromeOptions);
+            case "remote-chrome":
+                ChromeOptions optionsRemote = new ChromeOptions();
+                try{
+                    return new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),optionsRemote);
+                } catch (MalformedURLException e){
+                    e.printStackTrace();
+                }
+                return null;
             case "chrome":
             default:
                 System.setProperty(
